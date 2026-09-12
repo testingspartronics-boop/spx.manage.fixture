@@ -1,10 +1,11 @@
 import FixtureDashboard from "@/components/fixture-dashboard";
-import { getFixtures, getAuditLogs } from "./actions";
+import { getFixtures, getAuditLogs, getProjectDeviceData } from "./actions";
 
 export default async function Home() {
   // Lấy danh sách fixture từ SQLite thông qua Prisma
   const initialFixtures = await getFixtures();
   const initialAuditLogs = await getAuditLogs();
+  const projectDeviceData = await getProjectDeviceData();
 
   return (
     <main className="min-h-screen bg-slate-50 p-6">
@@ -12,6 +13,7 @@ export default async function Home() {
       <FixtureDashboard
         initialFixtures={initialFixtures}
         initialAuditLogs={initialAuditLogs}
+        initialProjectDeviceData={projectDeviceData}
       />
     </main>
   );

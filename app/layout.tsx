@@ -3,8 +3,8 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Calibra — Quản lý hiệu chuẩn fixture',
-  description: 'Theo dõi fixture, lịch hiệu chuẩn và nhắc nhở tái đăng ký.',
+  title: 'MAINTAIN — Asset Operations Center',
+  description: 'Manage fixtures, devices, projects, maintenance schedules and notifications in one place.',
   generator: 'v0.app',
 }
 

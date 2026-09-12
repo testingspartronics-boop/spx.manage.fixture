@@ -1,6 +1,6 @@
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
@@ -13,6 +13,8 @@ model SystemSetting {
   emailNotifications  Boolean  @default(true)
   autoBackup          Boolean  @default(false)
   updatedAt           DateTime @updatedAt
+
+  @@map("SPX_Fixture_SystemSetting")
 }
 
 model Fixture {
@@ -32,6 +34,52 @@ model Fixture {
 
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+
+  @@map("SPX_Fixture")
+}
+
+model Project {
+  id          String          @id @default(uuid())
+  code        String          @unique
+  name        String
+  description String?
+  devices     ProjectDevice[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@map("SPX_Project")
+}
+
+model Device {
+  id                String          @id @default(uuid())
+  code              String          @unique
+  name              String
+  customerName      String?
+  serialNumber      String?
+  assetType         String          @default("DEVICE")
+  category          String
+  fgCode            String?
+  quantity          Int             @default(1)
+  availableQuantity Int             @default(1)
+  status            String          @default("ACTIVE")
+  location          String?
+  notes             String?
+  projects          ProjectDevice[]
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  @@map("SPX_Device")
+}
+
+model ProjectDevice {
+  projectId String
+  deviceId  String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  device    Device  @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([projectId, deviceId])
+  @@map("SPX_ProjectDevice")
 }
 
 model AuditLog {
@@ -44,10 +92,12 @@ model AuditLog {
   ipAddress  String?
 
   createdAt  DateTime @default(now())
+
+  @@map("SPX_Fixture_AuditLog")
 }
 
 model User {
-  id          String   @id @default(cuid())
+  id          Int      @id @default(autoincrement())
 
   username    String
   email       String   @unique
@@ -58,4 +108,6 @@ model User {
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@map("SPX_Fixture_User")
 }
