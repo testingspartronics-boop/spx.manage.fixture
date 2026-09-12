@@ -1,6 +1,8 @@
 import FixtureDashboard from "@/components/fixture-dashboard";
 import { getFixtures, getAuditLogs, getProjectDeviceData } from "./actions";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   // Lấy danh sách fixture từ SQLite thông qua Prisma
   const initialFixtures = await getFixtures();
